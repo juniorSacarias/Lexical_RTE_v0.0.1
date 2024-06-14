@@ -56,7 +56,7 @@ Editor developed for Track my process
 
   5. Enter links
 
-     We can create links with specific words
+     We can create links with specific words, you need to press enter to save the link
      
      [screen-capture (4).webm](https://github.com/juniorSacarias/Lexical_RTE_v0.0.1/assets/170922142/c2dc3fd8-53cc-45ee-9157-6736c81f19bd)
 
