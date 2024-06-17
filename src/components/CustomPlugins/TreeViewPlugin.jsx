@@ -1,16 +1,20 @@
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { TreeView } from "@lexical/react/LexicalTreeView";
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { TreeView } from '@lexical/react/LexicalTreeView';
 
 export default function TreeViewPlugin() {
-  const [editor] = useLexicalComposerContext();
-  return (
-    <TreeView
-      viewClassName="tree-view-output"
-      timeTravelPanelClassName="debug-timetravel-panel"
-      timeTravelButtonClassName="debug-timetravel-button"
-      timeTravelPanelSliderClassName="debug-timetravel-panel-slider"
-      timeTravelPanelButtonClassName="debug-timetravel-panel-button"
-      editor={editor}
-    />
-  );
+	const [editor] = useLexicalComposerContext(); // Get the editor instance.
+	/**
+	 * The TreeView component is used to render the tree view of the editor.
+	 * Have props like viewClassName, timeTravelPanelClassName, timeTravelButtonClassName, timeTravelPanelSliderClassName, timeTravelPanelButtonClassName, and editor.
+	 */
+	return (
+		<TreeView
+			viewClassName="tree-view-output"
+			timeTravelPanelClassName="debug-timetravel-panel"
+			timeTravelButtonClassName="debug-timetravel-button"
+			timeTravelPanelSliderClassName="debug-timetravel-panel-slider"
+			timeTravelPanelButtonClassName="debug-timetravel-panel-button"
+			editor={editor}
+		/>
+	);
 }
