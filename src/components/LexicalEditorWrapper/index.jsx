@@ -17,13 +17,28 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import ImagesPlugin from '../CustomPlugins/ImagePlugin';
 import FloatingTextFormatToolbarPlugin from '../CustomPlugins/FloatingTextFormatPlugin';
 
+/**
+ * Renders the wrapper component for the Lexical Editor.
+ * LexicalComposer is the main component that wraps the editor. props: initialConfig and childrens
+ * LexicalEditorTopBar is the top bar of the editor.
+ * The box is the component in charge of encompassing the different plugins related to writing and events
+ * RichTextPlugin  that adds major features for rich text editing, including typing, deletion, copy/pasting, indent/outdent and bold/italic/underline/strikethrough text formatting
+ * RichTextPlugin props: contentEditable this is the style in reference the area, placeholder, ErrorBoundary
+ * OnChangePlugin is a plugin that listens for changes in the editor state
+ * HistoryPlugin is a plugin that adds undo and redo functionality to the editor
+ * TreeViewPlugin is a plugin that adds a tree view to the editor, customPlugin
+ * ListPlugin is a plugin that adds list functionality to the editor
+ * LinkPlugin is a plugin that adds link functionality to the editor
+ * ImagesPlugin is a plugin that adds image functionality to the editor, customPlugin
+ * FloatingTextFormatToolbarPlugin is a plugin that adds text formatting functionality to the editor, customPlugin
+ */
 function LexicalEditorWrapper(props) {
 	return (
 		<LexicalComposer initialConfig={lexicalEditorConfig}>
 			<LexicalEditorTopBar />
 			<Divider />
 			<Box sx={{ position: 'relative', background: 'white' }}>
-				<RichTextPlugin // #312D4B
+				<RichTextPlugin
 					contentEditable={<MuiContentEditable />}
 					placeholder={<Box sx={placeHolderSx}>Enter some text...</Box>}
 					ErrorBoundary={LexicalErrorBoundary}
@@ -40,9 +55,12 @@ function LexicalEditorWrapper(props) {
 	);
 }
 
+/**
+ * Handles the change event of the editor.
+ */
+
 function onChange(editorState) {
 	editorState.read(() => {
-		// Read the contents of the EditorState here.
 		const root = $getRoot();
 		const selection = $getSelection();
 
