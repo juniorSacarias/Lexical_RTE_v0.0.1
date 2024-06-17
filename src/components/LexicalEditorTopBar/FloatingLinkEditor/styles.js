@@ -1,5 +1,7 @@
 import { styled, Box, TextField } from "@mui/material";
 
+// Styles for the FloatingLinkEditor component
+
 export const FloatingDivContainer = styled(Box)({
   position: "absolute",
   zIndex: 100,
