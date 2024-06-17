@@ -15,7 +15,6 @@ import TreeViewPlugin from '../CustomPlugins/TreeViewPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import ImagesPlugin from '../CustomPlugins/ImagePlugin';
-import FloatingTextFormatToolbarPlugin from '../CustomPlugins/FloatingTextFormatPlugin';
 
 /**
  * Renders the wrapper component for the Lexical Editor.
@@ -30,7 +29,6 @@ import FloatingTextFormatToolbarPlugin from '../CustomPlugins/FloatingTextFormat
  * ListPlugin is a plugin that adds list functionality to the editor
  * LinkPlugin is a plugin that adds link functionality to the editor
  * ImagesPlugin is a plugin that adds image functionality to the editor, customPlugin
- * FloatingTextFormatToolbarPlugin is a plugin that adds text formatting functionality to the editor, customPlugin
  */
 function LexicalEditorWrapper(props) {
 	return (
@@ -49,7 +47,6 @@ function LexicalEditorWrapper(props) {
 				<ListPlugin />
 				<LinkPlugin />
 				<ImagesPlugin captionsEnabled={false} />
-				<FloatingTextFormatToolbarPlugin />
 			</Box>
 		</LexicalComposer>
 	);
