@@ -16,6 +16,8 @@ import FormatText from "mdi-material-ui/FormatText";
 import CodeIcon from "@mui/icons-material/Code";
 import ImageIcon from "@mui/icons-material/Image";
 
+// eventTypes and pluginList, icons for diferents functionalities
+
 export const eventTypes = {
   paragraph: "paragraph",
   h1: "h1",
@@ -100,11 +102,6 @@ const pluginsList = [
     Icon: FormatUnderlinedOutlinedIcon,
     event: eventTypes.formatUnderline,
   },
-  // { // reactive it if you need it
-  //   id: 13,
-  //   Icon: StrikethroughSOutlinedIcon,
-  //   event: eventTypes.formatStrike,
-  // },
   {
     id: 13,
     Icon: ImageIcon,
