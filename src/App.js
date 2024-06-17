@@ -3,6 +3,11 @@ import LexicalEditorWrapper from './components/LexicalEditorWrapper';
 import theme from './theme';
 import './App.css';
 
+/**
+ * The main component of the application.
+ * The rendered App component.
+ */
+
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
