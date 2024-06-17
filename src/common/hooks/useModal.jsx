@@ -1,21 +1,25 @@
 import { useCallback, useMemo, useState } from 'react';
 import * as React from 'react';
-
 import Modal from '../../components/ui/Modal';
 
 export default function useModal() {
-	const [modalContent, setModalContent] = useState(null);
+	// Function that returns a modal.
+	const [modalContent, setModalContent] = useState(null); // Create a state variable to store the modal content.
 
 	const onClose = useCallback(() => {
-		setModalContent(null);
+		// Function that closes the modal.
+		setModalContent(null); // Set the modal content to null.
 	}, []);
 
 	const modal = useMemo(() => {
+		// Create a memoized modal component.
 		if (modalContent === null) {
-			return null;
+			// If the modal content is null.
+			return null; // Return null.
 		}
-		const { title, content, closeOnClickOutside } = modalContent;
+		const { title, content, closeOnClickOutside } = modalContent; // Destructure the title, content, and closeOnClickOutside from the modal content.
 		return (
+			// Return a modal component.
 			<Modal onClose={onClose} title={title} open={!!modalContent} closeOnClickOutside={closeOnClickOutside}>
 				{content}
 			</Modal>
@@ -23,20 +27,16 @@ export default function useModal() {
 	}, [modalContent, onClose]);
 
 	const showModal = useCallback(
-		(
-			title,
-			// eslint-disable-next-line no-shadow
-			getContent,
-			closeOnClickOutside = false
-		) => {
-			setModalContent({
-				closeOnClickOutside,
-				content: getContent(onClose),
-				title
+		// Function that shows the modal.
+		(title, getContent, closeOnClickOutside = false) => { // Destructure the title, getContent, and closeOnClickOutside from the arguments.
+			setModalContent({ // Set the modal content.
+				closeOnClickOutside, // Set the closeOnClickOutside property.
+				content: getContent(onClose), // Set the content property to the result of the getContent function.
+				title // Set the title property.
 			});
 		},
-		[onClose]
+		[onClose] // Add onClose to the dependency array.
 	);
 
-	return [modal, showModal];
+	return [modal, showModal]; // Return the modal and showModal function.
 }
