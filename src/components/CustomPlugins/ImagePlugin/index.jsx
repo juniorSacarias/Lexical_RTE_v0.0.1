@@ -1,355 +1,180 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $wrapNodeInElement, mergeRegister } from "@lexical/utils";
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $wrapNodeInElement, mergeRegister } from '@lexical/utils';
 import {
-  $createParagraphNode,
-  $createRangeSelection,
-  $getSelection,
-  $insertNodes,
-  $isNodeSelection,
-  $isRootOrShadowRoot,
-  $setSelection,
-  COMMAND_PRIORITY_EDITOR,
-  COMMAND_PRIORITY_HIGH,
-  COMMAND_PRIORITY_LOW,
-  createCommand,
-  DRAGOVER_COMMAND,
-  DRAGSTART_COMMAND,
-  DROP_COMMAND,
-} from "lexical";
-import { useEffect, useRef, useState } from "react";
-import * as React from "react";
+	$createParagraphNode,
+	$insertNodes,
+	$isRootOrShadowRoot,
+	COMMAND_PRIORITY_EDITOR,
+	createCommand
+} from 'lexical';
+import { useEffect, useRef, useState } from 'react';
+import * as React from 'react';
+import { Box, Button, Grid, TextField } from '@mui/material';
+import { CAN_USE_DOM } from '../../../common/utils/canUseDom';
+import { $createImageNode, ImageNode } from '../../CustomNodes/ImageNode';
 
-import { Box, Button, Grid, TextField } from "@mui/material";
+const getDOMSelection = targetWindow => (CAN_USE_DOM ? (targetWindow || window).getSelection() : null); // Get the DOM selection.
 
-import { CAN_USE_DOM } from "../../../common/utils/canUseDom";
-import {
-  $createImageNode,
-  $isImageNode,
-  ImageNode,
-} from "../../CustomNodes/ImageNode";
-
-const getDOMSelection = (targetWindow) =>
-  CAN_USE_DOM ? (targetWindow || window).getSelection() : null;
-
-export const INSERT_IMAGE_COMMAND = createCommand("INSERT_IMAGE_COMMAND");
+export const INSERT_IMAGE_COMMAND = createCommand('INSERT_IMAGE_COMMAND'); // Create a command to insert an image.
 
 export function InsertImageUriDialogBody({ onClick }) {
-  const [src, setSrc] = useState("");
-  const [altText, setAltText] = useState("");
+	// InsertImageUriDialogBody is a component that displays the dialog body for inserting an image from a URL. props.onClick is a function that is called when the user clicks the confirm button.
+	const [src, setSrc] = useState(''); // The URL of the image.
+	const [altText, setAltText] = useState(''); // The alternative text of the image.
 
-  const isDisabled = src === "";
+	const isDisabled = src === ''; // Whether the confirm button is disabled.
 
-  return (
-    <>
-      <TextField
-        label="Image URL"
-        placeholder="i.e. https://source.unsplash.com/random"
-        onChange={(e) => setSrc(e.target.value)}
-        value={src}
-        sx={{ mb: 7, height: 10 }}
-        fullWidth
-      />
-      <TextField
-        label="Alt Text"
-        placeholder="Random unsplash image"
-        onChange={(e) => setAltText(e.target.value)}
-        sx={{ mb: 7, height: 10 }}
-        fullWidth
-        value={altText}
-        data-test-id="image-modal-alt-text-input"
-      />
-      <Grid container justifyContent="flex-end">
-        <Button
-          data-test-id="image-modal-confirm-btn"
-          disabled={isDisabled}
-          onClick={() => onClick({ altText, src })}
-          variant="outlined"
-        >
-          Confirm
-        </Button>
-      </Grid>
-    </>
-  );
+	return (
+		<>
+			<TextField
+				label="Image URL"
+				placeholder="i.e. https://source.unsplash.com/random"
+				onChange={event => setSrc(event.target.value)}
+				value={src}
+				sx={{ mb: 7, height: 10 }}
+				fullWidth
+			/>
+			<TextField
+				label="Alt Text"
+				placeholder="Random unsplash image"
+				onChange={event => setAltText(event.target.value)}
+				sx={{ mb: 7, height: 10 }}
+				fullWidth
+				value={altText}
+				data-test-id="image-modal-alt-text-input"
+			/>
+			<Grid container justifyContent="flex-end">
+				<Button
+					data-test-id="image-modal-confirm-btn"
+					disabled={isDisabled}
+					onClick={() => onClick({ altText, src })}
+					variant="outlined">
+					Confirm
+				</Button>
+			</Grid>
+		</>
+	);
 }
 
+// InsertImageUploadedDialogBody is a component that displays the dialog body for inserting an image from a file. props.onClick is a function that is called when the user clicks the confirm button.
 export function InsertImageUploadedDialogBody({ onClick }) {
-  const [src, setSrc] = useState("");
-  const [altText, setAltText] = useState("");
+	const [src, setSrc] = useState(''); // The URL of the image.
+	const [altText, setAltText] = useState(''); // The alternative text of the image.
 
-  const isDisabled = src === "";
+	const isDisabled = src === ''; // Whether the confirm button is disabled.
 
-  const loadImage = (files) => {
-    const reader = new FileReader();
-    reader.onload = function () {
-      if (typeof reader.result === "string") {
-        setSrc(reader.result);
-      }
-      return "";
-    };
-    if (files !== null) {
-      reader.readAsDataURL(files[0]);
-    }
-  };
+	// loadImage is a function that loads the image from the file.
+	const loadImage = files => {
+		const reader = new FileReader(); // Create a new FileReader.
+		reader.onload = function () {
+			// Set the onload event handler.
+			if (typeof reader.result === 'string') {
+				// If the result is a string,
+				setSrc(reader.result); // Set the URL of the image to the result.
+			}
+			return ''; // Return an empty string.
+		};
+		if (files !== null) {
+			// If the files are not null,
+			reader.readAsDataURL(files[0]); // Read the data URL of the first file.
+		}
+	};
 
-  return (
-    <>
-      <Button fullWidth sx={{ mb: 1 }} variant="contained" component="label">
-        Upload
-        <input
-          onChange={(e) => loadImage(e.target.files)}
-          hidden
-          accept="image/*"
-          multiple
-          type="file"
-        />
-      </Button>
+	return (
+		<>
+			<Button fullWidth sx={{ mb: 1 }} variant="contained" component="label">
+				Upload
+				<input onChange={e => loadImage(e.target.files)} hidden accept="image/*" multiple type="file" />
+			</Button>
 
-      <TextField
-        label="Alt Text"
-        placeholder="Descriptive alternative text"
-        onChange={(e) => setAltText(e.target.value)}
-        value={altText}
-        sx={{ mb: 7, height: 10 }}
-        fullWidth
-        variant="standard"
-        data-test-id="image-modal-alt-text-input"
-      />
-      <Grid container justifyContent="flex-end">
-        <Button
-          data-test-id="image-modal-confirm-btn"
-          disabled={isDisabled}
-          onClick={() => onClick({ altText, src })}
-          variant="outlined"
-        >
-          Confirm
-        </Button>
-      </Grid>
-    </>
-  );
+			<TextField
+				label="Alt Text"
+				placeholder="Descriptive alternative text"
+				onChange={e => setAltText(e.target.value)}
+				value={altText}
+				sx={{ mb: 7, height: 10 }}
+				fullWidth
+				variant="standard"
+				data-test-id="image-modal-alt-text-input"
+			/>
+			<Grid container justifyContent="flex-end">
+				<Button
+					data-test-id="image-modal-confirm-btn"
+					disabled={isDisabled}
+					onClick={() => onClick({ altText, src })}
+					variant="outlined">
+					Confirm
+				</Button>
+			</Grid>
+		</>
+	);
 }
 
+// InsertImageDialog is a component that displays the dialog for inserting an image. props.activeEditor is the active editor. props.onClose is a function that is called when the dialog is closed.
 export function InsertImageDialog({ activeEditor, onClose }) {
-  const [mode, setMode] = useState(null);
-  const hasModifier = useRef(false);
+	const [mode, setMode] = useState(null); // The mode of the dialog.
+	const hasModifier = useRef(false); // Whether the user has the alt key pressed.
 
-  useEffect(() => {
-    hasModifier.current = false;
-    const handler = (e) => {
-      hasModifier.current = e.altKey;
-    };
-    document.addEventListener("keydown", handler);
-    return () => {
-      document.removeEventListener("keydown", handler);
-    };
-  }, [activeEditor]);
+	useEffect(() => {
+		hasModifier.current = false; // Set hasModifier to false.
+		const handler = e => { // Create a keydown event handler.
+			hasModifier.current = e.altKey; // Set hasModifier to the value of e.altKey.
+		};
+		document.addEventListener('keydown', handler); // Add the keydown event listener to the document.
+		return () => { // Return a function that removes the event listener.
+			document.removeEventListener('keydown', handler); // Remove the keydown event listener from the document.
+		};
+	}, [activeEditor]); // Add the keydown event listener when the active editor changes.
 
-  const onClick = (payload) => {
-    activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
-    onClose();
-  };
+  // onClick is a function that is called when the user clicks the confirm button.
+	const onClick = payload => { // Create a function that takes a payload.
+		activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload); // Dispatch the INSERT_IMAGE_COMMAND command with the payload.
+		onClose(); // Call the onClose function.
+	};
 
-  return (
-    <>
-      {!mode && (
-        <Box>
-          <Button
-            data-test-id="image-modal-option-url"
-            onClick={() => setMode("url")}
-          >
-            URL
-          </Button>
-          <Button
-            data-test-id="image-modal-option-file"
-            onClick={() => setMode("file")}
-          >
-            File
-          </Button>
-        </Box>
-      )}
-      {mode === "url" && <InsertImageUriDialogBody onClick={onClick} />}
-      {mode === "file" && <InsertImageUploadedDialogBody onClick={onClick} />}
-    </>
-  );
+	return (
+		<>
+			{!mode && (
+				<Box>
+					<Button data-test-id="image-modal-option-url" onClick={() => setMode('url')}>
+						URL
+					</Button>
+					<Button data-test-id="image-modal-option-file" onClick={() => setMode('file')}>
+						File
+					</Button>
+				</Box>
+			)}
+			{mode === 'url' && <InsertImageUriDialogBody onClick={onClick} />}
+			{mode === 'file' && <InsertImageUploadedDialogBody onClick={onClick} />}
+		</>
+	);
 }
 
+// ImagesPlugin is a component that enables the user to insert images into the editor. props.captionsEnabled is a boolean that indicates whether captions are enabled.
 export default function ImagesPlugin({ captionsEnabled }) {
-  const [editor] = useLexicalComposerContext();
+	const [editor] = useLexicalComposerContext(); // Get the editor.
 
-  useEffect(() => {
-    if (!editor.hasNodes([ImageNode])) {
-      throw new Error("ImagesPlugin: ImageNode not registered on editor");
-    }
+	useEffect(() => {
+		if (!editor.hasNodes([ImageNode])) { // If the editor does not have the ImageNode,
+			throw new Error('ImagesPlugin: ImageNode not registered on editor'); // Throw an error.
+		}
 
-    return mergeRegister(
-      editor.registerCommand(
-        INSERT_IMAGE_COMMAND,
-        (payload) => {
-          const imageNode = $createImageNode(payload);
-          $insertNodes([imageNode]);
-          if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) {
-            $wrapNodeInElement(imageNode, $createParagraphNode).selectEnd();
-          }
+		return mergeRegister( // Return the result of mergeRegister.
+			editor.registerCommand( // Register a command on the editor.
+				INSERT_IMAGE_COMMAND, // The command is INSERT_IMAGE_COMMAND.
+				payload => { // The command takes a payload.
+					const imageNode = $createImageNode(payload); // Create an ImageNode with the payload.
+					$insertNodes([imageNode]); // Insert the ImageNode into the editor.
+					if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) { // If the parent of the ImageNode is the root or shadow root,
+						$wrapNodeInElement(imageNode, $createParagraphNode).selectEnd(); // Wrap the ImageNode in a paragraph node and select the end.
+					}
 
-          return true;
-        },
-        COMMAND_PRIORITY_EDITOR
-      ),
-      editor.registerCommand(
-        DRAGSTART_COMMAND,
-        (event) => {
-          return onDragStart(event);
-        },
-        COMMAND_PRIORITY_HIGH
-      ),
-      editor.registerCommand(
-        DRAGOVER_COMMAND,
-        (event) => {
-          return onDragover(event);
-        },
-        COMMAND_PRIORITY_LOW
-      ),
-      editor.registerCommand(
-        DROP_COMMAND,
-        (event) => {
-          return onDrop(event, editor);
-        },
-        COMMAND_PRIORITY_HIGH
-      )
-    );
-  }, [captionsEnabled, editor]);
+					return true; 
+				},
+				COMMAND_PRIORITY_EDITOR // The priority of the command is COMMAND_PRIORITY_EDITOR.
+			)
+		);
+	}, [captionsEnabled, editor]); // Register the command when the captionsEnabled or editor changes.
 
-  return null;
-}
-
-const TRANSPARENT_IMAGE =
-  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-const img = document.createElement("img");
-img.src = TRANSPARENT_IMAGE;
-
-function onDragStart(event) {
-  const node = getImageNodeInSelection();
-  if (!node) {
-    return false;
-  }
-  const dataTransfer = event.dataTransfer;
-  if (!dataTransfer) {
-    return false;
-  }
-  dataTransfer.setData("text/plain", "_");
-  dataTransfer.setDragImage(img, 0, 0);
-  dataTransfer.setData(
-    "application/x-lexical-drag",
-    JSON.stringify({
-      data: {
-        altText: node.__altText,
-        caption: node.__caption,
-        height: node.__height,
-        key: node.getKey(),
-        maxWidth: node.__maxWidth,
-        showCaption: node.__showCaption,
-        src: node.__src,
-        width: node.__width,
-      },
-      type: "image",
-    })
-  );
-
-  return true;
-}
-
-function onDragover(event) {
-  const node = getImageNodeInSelection();
-  if (!node) {
-    return false;
-  }
-  if (!canDropImage(event)) {
-    event.preventDefault();
-  }
-  return true;
-}
-
-function onDrop(event, editor) {
-  const node = getImageNodeInSelection();
-  if (!node) {
-    return false;
-  }
-  const data = getDragImageData(event);
-  if (!data) {
-    return false;
-  }
-  event.preventDefault();
-  if (canDropImage(event)) {
-    const range = getDragSelection(event);
-    node.remove();
-    const rangeSelection = $createRangeSelection();
-    if (range !== null && range !== undefined) {
-      rangeSelection.applyDOMRange(range);
-    }
-    $setSelection(rangeSelection);
-    editor.dispatchCommand(INSERT_IMAGE_COMMAND, data);
-  }
-  return true;
-}
-
-function getImageNodeInSelection() {
-  const selection = $getSelection();
-  if (!$isNodeSelection(selection)) {
-    return null;
-  }
-  const nodes = selection.getNodes();
-  const node = nodes[0];
-  return $isImageNode(node) ? node : null;
-}
-
-function getDragImageData(event) {
-  const dragData = event.dataTransfer?.getData("application/x-lexical-drag");
-  if (!dragData) {
-    return null;
-  }
-  const { type, data } = JSON.parse(dragData);
-  if (type !== "image") {
-    return null;
-  }
-
-  return data;
-}
-
-function canDropImage(event) {
-  const target = event.target;
-  return !!(
-    target &&
-    target instanceof HTMLElement &&
-    !target.closest("code, span.editor-image") &&
-    target.parentElement &&
-    target.parentElement.closest("div.ContentEditable__root")
-  );
-}
-
-function getDragSelection(event) {
-  let range;
-  const target = event.target;
-  const targetWindow =
-    target == null
-      ? null
-      : target.nodeType === 9
-      ? target.defaultView
-      : target.ownerDocument.defaultView;
-  const domSelection = getDOMSelection(targetWindow);
-  if (document.caretRangeFromPoint) {
-    range = document.caretRangeFromPoint(event.clientX, event.clientY);
-  } else if (event.rangeParent && domSelection !== null) {
-    domSelection.collapse(event.rangeParent, event.rangeOffset || 0);
-    range = domSelection.getRangeAt(0);
-  } else {
-    throw Error(`Cannot get the selection when dragging`);
-  }
-
-  return range;
+	return null; // Return null.
 }
