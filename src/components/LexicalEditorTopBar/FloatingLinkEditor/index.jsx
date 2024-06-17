@@ -8,7 +8,7 @@ import { mergeRegister } from "@lexical/utils";
 import { useCallback } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
-import DoneIcon from "@mui/icons-material/Done";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { $isAtNodeEnd } from "@lexical/selection";
 import {
@@ -150,7 +150,7 @@ function FloatingLinkEditor({ editor }) {
             />
           ) : (
             <FloatingDivLink>
-              <a href={linkUrl} target="_blank" rel="noopener noreferrer">
+              <a href={linkUrl} target="_blank" >
                 {linkUrl}
               </a>
             </FloatingDivLink>
@@ -166,7 +166,7 @@ function FloatingLinkEditor({ editor }) {
               setEditMode(!isEditMode);
             }}
           >
-            {isEditMode ? <DoneIcon /> : <EditIcon />}
+            {isEditMode ? <CloseIcon /> : <EditIcon />}
           </IconButton>
         </Grid>
       </Grid>
@@ -174,33 +174,33 @@ function FloatingLinkEditor({ editor }) {
   );
 }
 
+// getSelectedNode is a function that gets the selected node based on the selection.
 function getSelectedNode(selection) {
-  const anchor = selection.anchor;
-  const focus = selection.focus;
-  const anchorNode = selection.anchor.getNode();
-  const focusNode = selection.focus.getNode();
-  if (anchorNode === focusNode) {
-    return anchorNode;
+  const anchor = selection.anchor; // The anchor of the selection.
+  const focus = selection.focus; // The focus of the selection.
+  const anchorNode = selection.anchor.getNode(); // The anchor node of the selection.
+  const focusNode = selection.focus.getNode(); // The focus node of the selection. 
+  if (anchorNode === focusNode) { // If the anchor node is the focus node.
+    return anchorNode;  // Return the anchor node.
   }
-  const isBackward = selection.isBackward();
-  if (isBackward) {
-    return $isAtNodeEnd(focus) ? anchorNode : focusNode;
-  } else {
-    return $isAtNodeEnd(anchor) ? focusNode : anchorNode;
+  const isBackward = selection.isBackward(); // Whether the selection is backward.
+  if (isBackward) { // If the selection is backward.
+    return $isAtNodeEnd(focus) ? anchorNode : focusNode; // Return the anchor node if the focus is at the node end, otherwise return the focus node.
+  } else { 
+    return $isAtNodeEnd(anchor) ? focusNode : anchorNode; // Return the focus node if the anchor is at the node end, otherwise return the anchor node.
   }
 }
 
+// positionEditorElement is a function that positions the editor element based on the rectangle, props editor is the editor instance, and rect is the rectangle.
 function positionEditorElement(editor, rect) {
-  if (rect === null) {
-    editor.style.opacity = "0";
-    editor.style.top = "-1000px";
-    editor.style.left = "-1000px";
-  } else {
-    editor.style.opacity = "1";
-    editor.style.top = `${rect.top + rect.height + window.pageYOffset + 10}px`;
-    editor.style.left = `${
-      rect.left + window.pageXOffset - editor.offsetWidth / 2 + rect.width / 2
-    }px`;
+  if (rect === null) { // If the rectangle is null.
+    editor.style.opacity = "0";  // Set the opacity of the editor to 0.
+    editor.style.top = "-1000px"; // Set the top of the editor to -1000px.
+    editor.style.left = "-1000px"; // Set the left of the editor to -1000px.
+  } else { // If the rectangle is not null.
+    editor.style.opacity = "1"; // Set the opacity of the editor to 1.
+    editor.style.top = `${rect.top + rect.height + window.pageYOffset + 10}px`; // Set the top of the editor.
+    editor.style.left = `${rect.left + window.pageXOffset - editor.offsetWidth / 2 + rect.width / 2}px`; // Set the left of the editor.
   }
 }
 
