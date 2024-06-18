@@ -176,10 +176,6 @@ const useOnClickListener = () => {
 			editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
 		} else if (eventType === eventTypes.paragraph) {
 			formatParagraph();
-		} else if (eventType === eventTypes.h1) {
-			formatLargeHeading();
-		} else if (eventType === eventTypes.h2) {
-			formatSmallHeading();
 		} else if (eventType === eventTypes.ul) {
 			formatBulletList();
 		} else if (eventType === eventTypes.ol) {
@@ -224,28 +220,6 @@ const useOnClickListener = () => {
 
 	const decreaseFontSize = amount => {
 		editor.dispatchCommand(DECREASE_FONT_SIZE_COMMAND, amount);
-	};
-
-	const formatLargeHeading = () => {
-		if (blockType !== 'h1') {
-			editor.update(() => {
-				const selection = $getSelection();
-				if ($isRangeSelection(selection)) {
-					$wrapNodes(selection, () => $createHeadingNode('h1'));
-				}
-			});
-		}
-	};
-
-	const formatSmallHeading = () => {
-		if (blockType !== 'h2') {
-			editor.update(() => {
-				const selection = $getSelection();
-				if ($isRangeSelection(selection)) {
-					$wrapNodes(selection, () => $createHeadingNode('h2'));
-				}
-			});
-		}
 	};
 
 	const formatBulletList = () => {

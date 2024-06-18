@@ -8,8 +8,6 @@ import FormatAlignLeftOutlinedIcon from "@mui/icons-material/FormatAlignLeftOutl
 import FormatAlignRightOutlinedIcon from "@mui/icons-material/FormatAlignRightOutlined";
 import FormatAlignJustifyOutlinedIcon from "@mui/icons-material/FormatAlignJustifyOutlined";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
-import FormatHeader1 from "mdi-material-ui/FormatHeader1";
-import FormatHeader2 from "mdi-material-ui/FormatHeader2";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import FormatText from "mdi-material-ui/FormatText";
@@ -22,8 +20,6 @@ import TextDecreaseIcon from "@mui/icons-material/TextDecrease";
 
 export const eventTypes = {
   paragraph: "paragraph",
-  h1: "h1",
-  h2: "h2",
   ul: "ul",
   ol: "ol",
   quote: "quote",
@@ -48,16 +44,6 @@ const pluginsList = [
     id: 1,
     Icon: FormatText,
     event: eventTypes.paragraph,
-  },
-  {
-    id: 2,
-    Icon: FormatHeader1,
-    event: eventTypes.h1,
-  },
-  {
-    id: 3,
-    Icon: FormatHeader2,
-    event: eventTypes.h2,
   },
   {
     id: 4,
