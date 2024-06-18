@@ -3,6 +3,11 @@ import { Grid, styled } from '@mui/material';
 import FloatingLinkEditor from './FloatingLinkEditor';
 import toolbarIconsList from './toolbarIconsList';
 import useOnClickListener from './useOnClickListener';
+import FontFamilyDropdown from '../FontFamilyDropdown';
+import { Select } from 'mdi-material-ui';
+import { $getSelection, $isRangeSelection } from 'lexical';
+
+import { useState } from 'react';
 
 /**
  * useOnClickListener is a custom hook that handles the click event of the toolbar icons.
@@ -29,6 +34,28 @@ const LexicalEditorTopBar = () => {
 
 	const isIconSelected = plugin => selectedEventTypes.includes(plugin.event) || blockType.includes(plugin.event);
 
+	const [selectedFont, setSelectedFont] = useState('Roboto');
+
+	const handleChange = event => {
+		const font = event.target.value;
+		setSelectedFont(font);
+		applyFontToSelection(font);
+	};
+
+	const applyFontToSelection = font => {
+		editor.update(() => {
+			const selection = $getSelection();
+			if ($isRangeSelection(selection)) {
+				selection.getNodes().forEach(node => {
+					const element = editor.getElementByKey(node.getKey());
+					if (element) {
+						element.style.fontFamily = font;
+					}
+				});
+			}
+		});
+	};
+
 	return (
 		<ToolbarGridContainer container py={2} px={1}>
 			{toolbarIconsList.map(plugin => (
@@ -42,6 +69,9 @@ const LexicalEditorTopBar = () => {
 					}
 				</IconGridContainer>
 			))}
+			<IconGridContainer item>
+				<FontFamilyDropdown selectedFont={selectedFont} onChange={handleChange} />
+			</IconGridContainer>
 			{modal}
 			{isLink && createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
 		</ToolbarGridContainer>
