@@ -11,6 +11,12 @@ const lexicalEditorTheme = {
 		h4: 'editor-heading-h4',
 		h5: 'editor-heading-h5'
 	},
+	fontSize: {
+		14: 'editor-fontSize-14',
+		16: 'editor-fontSize-16',
+		18: 'editor-fontSize-18',
+		20: 'editor-fontSize-20',
+	},
 	list: {
 		nested: {
 			listitem: 'editor-nested-listitem'

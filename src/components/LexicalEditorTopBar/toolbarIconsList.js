@@ -15,6 +15,8 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import FormatText from "mdi-material-ui/FormatText";
 import CodeIcon from "@mui/icons-material/Code";
 import ImageIcon from "@mui/icons-material/Image";
+import TextIncreaseIcon from "@mui/icons-material/TextIncrease";
+import TextDecreaseIcon from "@mui/icons-material/TextDecrease";
 
 // eventTypes and pluginList, icons for diferents functionalities
 
@@ -37,6 +39,8 @@ export const eventTypes = {
   formatAlignCenter: "formatAlignCenter",
   formatAlignRight: "formatAlignRight",
   insertImage: "insertImage",
+  increaseFontSize: "increaseFontSize",
+  decreaseFontSize: "decreaseFontSize",
 };
 
 const pluginsList = [
@@ -57,74 +61,83 @@ const pluginsList = [
   },
   {
     id: 4,
+    Icon: TextIncreaseIcon,
+    event: eventTypes.increaseFontSize,
+  },
+  {
+    id: 5,
+    Icon: TextDecreaseIcon,
+    event: eventTypes.decreaseFontSize,
+  },
+  {
+    id: 6,
     Icon: FormatListBulletedIcon,
     event: eventTypes.ul,
   },
 
   {
-    id: 5,
+    id: 7,
     Icon: FormatListNumberedIcon,
     event: eventTypes.ol,
   },
   {
-    id: 6,
+    id: 8,
     Icon: FormatQuoteIcon,
     event: eventTypes.quote,
   },
 
   {
-    id: 7,
+    id: 9,
     Icon: CodeIcon,
     event: eventTypes.formatCode,
   },
   {
-    id: 8,
+    id: 10,
     Icon: UndoOutlinedIcon,
     event: eventTypes.formatUndo,
   },
   {
-    id: 9,
+    id: 11,
     Icon: RedoOutlinedIcon,
     event: eventTypes.formatRedo,
   },
   {
-    id: 10,
+    id: 12,
     Icon: FormatBoldOutlinedIcon,
     event: eventTypes.formatBold,
   },
   {
-    id: 11,
+    id: 13,
     Icon: FormatItalicOutlinedIcon,
     event: eventTypes.formatItalic,
   },
   {
-    id: 12,
+    id: 14,
     Icon: FormatUnderlinedOutlinedIcon,
     event: eventTypes.formatUnderline,
   },
   {
-    id: 13,
+    id: 15,
     Icon: ImageIcon,
     event: eventTypes.insertImage,
   },
   {
-    id: 14,
+    id: 16,
     Icon: InsertLinkOutlinedIcon,
     event: eventTypes.formatInsertLink,
   },
   {
-    id: 15,
+    id: 17,
     Icon: FormatAlignLeftOutlinedIcon,
     event: eventTypes.formatAlignLeft,
   },
-
   {
-    id: 16,
+    id: 18,
     Icon: FormatAlignJustifyOutlinedIcon,
     event: eventTypes.formatAlignCenter,
   },
   {
-    id: 17,
+    id: 19,
     Icon: FormatAlignRightOutlinedIcon,
     event: eventTypes.formatAlignRight,
   },
