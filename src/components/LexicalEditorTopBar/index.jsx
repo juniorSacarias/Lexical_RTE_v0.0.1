@@ -6,8 +6,9 @@ import useOnClickListener from './useOnClickListener';
 import FontFamilyDropdown from '../FontFamilyDropdown';
 import { $getSelection, $isRangeSelection } from 'lexical';
 import { INSERT_TABLE_COMMAND } from '@lexical/table';
-
 import { useState } from 'react';
+
+import FormTablePlugin from '../CustomPlugins/TablePlugin/FormTablePlugin/FormTablePlugin';
 
 /**
  * useOnClickListener is a custom hook that handles the click event of the toolbar icons.
@@ -35,6 +36,7 @@ const LexicalEditorTopBar = () => {
 	const isIconSelected = plugin => selectedEventTypes.includes(plugin.event) || blockType.includes(plugin.event);
 
 	const [selectedFont, setSelectedFont] = useState('Roboto');
+	const [isTableFormOpen, setTableFormOpen] = useState(false);
 
 	const handleChange = event => {
 		const font = event.target.value;
@@ -56,8 +58,8 @@ const LexicalEditorTopBar = () => {
 		});
 	};
 
-	const insertTable = () => {
-		editor.dispatchCommand(INSERT_TABLE_COMMAND, {rows: 6, columns: 6});
+	const insertTable = ({ rows, columns }) => {
+		editor.dispatchCommand(INSERT_TABLE_COMMAND, { rows, columns });
 	};
 
 	return (
@@ -76,7 +78,10 @@ const LexicalEditorTopBar = () => {
 			<IconGridContainer item>
 				<FontFamilyDropdown selectedFont={selectedFont} onChange={handleChange} />
 			</IconGridContainer>
-			<button onClick={insertTable}>Table</button>
+			<IconGridContainer>
+				<button onClick={() => setTableFormOpen(true)}>Table</button>
+			</IconGridContainer>
+			<FormTablePlugin open={isTableFormOpen} onClose={() => setTableFormOpen(false)} onSubmit={insertTable}/>
 			{modal}
 			{isLink && createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
 		</ToolbarGridContainer>
