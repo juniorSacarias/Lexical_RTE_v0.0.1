@@ -7,7 +7,7 @@ import FontFamilyDropdown from '../FontFamilyDropdown';
 import { $getSelection, $isRangeSelection } from 'lexical';
 import { INSERT_TABLE_COMMAND } from '@lexical/table';
 import { useState } from 'react';
-
+import TableChart from '@mui/icons-material/TableChart'
 import FormTablePlugin from '../CustomPlugins/TablePlugin/FormTablePlugin/FormTablePlugin';
 
 /**
@@ -75,11 +75,11 @@ const LexicalEditorTopBar = () => {
 					}
 				</IconGridContainer>
 			))}
+			<IconGridContainer>
+				<TableChart onClick={() => setTableFormOpen(true)}/>
+			</IconGridContainer>
 			<IconGridContainer item>
 				<FontFamilyDropdown selectedFont={selectedFont} onChange={handleChange} />
-			</IconGridContainer>
-			<IconGridContainer>
-				<button onClick={() => setTableFormOpen(true)}>Table</button>
 			</IconGridContainer>
 			<FormTablePlugin open={isTableFormOpen} onClose={() => setTableFormOpen(false)} onSubmit={insertTable}/>
 			{modal}
