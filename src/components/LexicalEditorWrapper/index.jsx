@@ -1,5 +1,7 @@
+/* global localStorage */
+
 import { $getRoot, $getSelection } from 'lexical';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
@@ -8,7 +10,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { MuiContentEditable, placeHolderSx } from './styles';
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, useStepContext } from '@mui/material';
 import { lexicalEditorConfig } from '../../config/lexicalEditorConfig';
 import LexicalEditorTopBar from '../LexicalEditorTopBar';
 import TreeViewPlugin from '../CustomPlugins/TreeViewPlugin';
@@ -32,7 +34,23 @@ import { TablePlugin } from '@lexical/react/LexicalTablePlugin.js';
  * ImagesPlugin is a plugin that adds image functionality to the editor, customPlugin
  */
 
+function MyOnChangePlugin({ onChange }) {
+	const [editor] = useLexicalComposerContext();
+	useEffect(() => {
+		return editor.registerUpdateListener(({ editorState }) => {
+			onChange(editorState);
+		});
+	}, [editor, onChange]);
+	return null;
+}
+
 function LexicalEditorWrapper(props) {
+	const [editorState, setEditorState] = useState();
+	function onChange(editorState) {
+		const editorStateJSON = editorState.toJSON();
+		setEditorState(JSON.stringify(editorStateJSON));
+		console.log(editorState)
+	}
 	return (
 		<LexicalComposer initialConfig={lexicalEditorConfig}>
 			<LexicalEditorTopBar />
@@ -43,7 +61,7 @@ function LexicalEditorWrapper(props) {
 					placeholder={<Box sx={placeHolderSx}>Enter some text...</Box>}
 					ErrorBoundary={LexicalErrorBoundary}
 				/>
-				<OnChangePlugin onChange={onChange} />
+				<MyOnChangePlugin onChange={onChange} />
 				<HistoryPlugin />
 				<TreeViewPlugin />
 				<ListPlugin />
@@ -53,19 +71,6 @@ function LexicalEditorWrapper(props) {
 			</Box>
 		</LexicalComposer>
 	);
-}
-
-/**
- * Handles the change event of the editor.
- */
-
-function onChange(editorState) {
-	editorState.read(() => {
-		const root = $getRoot();
-		const selection = $getSelection();
-
-		console.log(root, selection);
-	});
 }
 
 function MyCustomAutoFocusPlugin() {
