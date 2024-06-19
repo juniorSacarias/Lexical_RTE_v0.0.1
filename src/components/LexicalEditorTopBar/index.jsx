@@ -4,8 +4,8 @@ import FloatingLinkEditor from './FloatingLinkEditor';
 import toolbarIconsList from './toolbarIconsList';
 import useOnClickListener from './useOnClickListener';
 import FontFamilyDropdown from '../FontFamilyDropdown';
-import { Select } from 'mdi-material-ui';
 import { $getSelection, $isRangeSelection } from 'lexical';
+import { INSERT_TABLE_COMMAND } from '@lexical/table';
 
 import { useState } from 'react';
 
@@ -56,6 +56,10 @@ const LexicalEditorTopBar = () => {
 		});
 	};
 
+	const insertTable = () => {
+		editor.dispatchCommand(INSERT_TABLE_COMMAND, {rows: 6, columns: 6});
+	};
+
 	return (
 		<ToolbarGridContainer container py={2} px={1}>
 			{toolbarIconsList.map(plugin => (
@@ -72,6 +76,7 @@ const LexicalEditorTopBar = () => {
 			<IconGridContainer item>
 				<FontFamilyDropdown selectedFont={selectedFont} onChange={handleChange} />
 			</IconGridContainer>
+			<button onClick={insertTable}>Table</button>
 			{modal}
 			{isLink && createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
 		</ToolbarGridContainer>

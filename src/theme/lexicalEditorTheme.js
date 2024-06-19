@@ -69,6 +69,20 @@ const lexicalEditorTheme = {
 		tag: 'editor-tokenProperty',
 		url: 'editor-tokenOperator',
 		variable: 'editor-tokenVariable'
-	}
+	},
+	table: "editor-table",
+	tableAddColumns: "editor-tableAddColumns",
+	tableAddRows: "editor-tableAddRows",
+	tableCell: "editor-tableCell",
+	tableCellActionButton: "editor-tableCellActionButton",
+	tableCellActionButtonContainer: "editor-tableCellActionButtonContainer",
+	tableCellEditing: "editor-tableCellEditing",
+	tableCellHeader: "editor-tableCellHeader",
+	tableCellPrimarySelected: "editor-tableCellPrimarySelected",
+	tableCellResizer: "editor-tableCellResizer",
+	tableCellSelected: "editor-tableCellSelected",
+	tableCellSortedIndicator: "editor-tableCellSortedIndicator",
+	tableResizeRuler: "editor-tableCellResizeRuler",
+	tableSelected: "editor-tableSelected",
 };
 export default lexicalEditorTheme;

@@ -15,6 +15,7 @@ import TreeViewPlugin from '../CustomPlugins/TreeViewPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import ImagesPlugin from '../CustomPlugins/ImagePlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin.js';
 
 /**
  * Renders the wrapper component for the Lexical Editor.
@@ -30,6 +31,7 @@ import ImagesPlugin from '../CustomPlugins/ImagePlugin';
  * LinkPlugin is a plugin that adds link functionality to the editor
  * ImagesPlugin is a plugin that adds image functionality to the editor, customPlugin
  */
+
 function LexicalEditorWrapper(props) {
 	return (
 		<LexicalComposer initialConfig={lexicalEditorConfig}>
@@ -47,6 +49,7 @@ function LexicalEditorWrapper(props) {
 				<ListPlugin />
 				<LinkPlugin />
 				<ImagesPlugin captionsEnabled={false} />
+				<TablePlugin />
 			</Box>
 		</LexicalComposer>
 	);
