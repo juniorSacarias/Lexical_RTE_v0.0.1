@@ -18,6 +18,7 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import ImagesPlugin from '../CustomPlugins/ImagePlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin.js';
+import FloatingTextFormatToolbarPlugin from '../CustomPlugins/FloatingTextFormatPlugin';
 
 /**
  * Renders the wrapper component for the Lexical Editor.
@@ -68,6 +69,7 @@ function LexicalEditorWrapper(props) {
 				<LinkPlugin />
 				<ImagesPlugin captionsEnabled={false} />
 				<TablePlugin />
+				<FloatingTextFormatToolbarPlugin />
 			</Box>
 		</LexicalComposer>
 	);

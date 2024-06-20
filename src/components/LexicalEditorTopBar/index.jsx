@@ -3,7 +3,7 @@ import { Grid, styled } from '@mui/material';
 import FloatingLinkEditor from './FloatingLinkEditor';
 import toolbarIconsList from './toolbarIconsList';
 import useOnClickListener from './useOnClickListener';
-import FontFamilyDropdown from '../FontFamilyDropdown';
+import FontFamilyDropdown from '../CustomPlugins/FontFamilyDropdown';
 import { $getSelection, $isRangeSelection } from 'lexical';
 import { INSERT_TABLE_COMMAND } from '@lexical/table';
 import { useState } from 'react';
