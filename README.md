@@ -85,6 +85,5 @@ Editor developed for Track my process
    Features pending development or improvement:
    
         a. Add images from remote
-        b. Reintroduce float wrap feature for texts
-        c. Settings and customization for tables
+        b. Settings and customization for tables
 
