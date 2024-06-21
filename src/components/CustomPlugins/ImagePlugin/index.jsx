@@ -18,45 +18,6 @@ const getDOMSelection = targetWindow => (CAN_USE_DOM ? (targetWindow || window).
 
 export const INSERT_IMAGE_COMMAND = createCommand('INSERT_IMAGE_COMMAND'); // Create a command to insert an image.
 
-export function InsertImageUriDialogBody({ onClick }) {
-	// InsertImageUriDialogBody is a component that displays the dialog body for inserting an image from a URL. props.onClick is a function that is called when the user clicks the confirm button.
-	const [src, setSrc] = useState(''); // The URL of the image.
-	const [altText, setAltText] = useState(''); // The alternative text of the image.
-
-	const isDisabled = src === ''; // Whether the confirm button is disabled.
-
-	return (
-		<>
-			<TextField
-				label="Image URL"
-				placeholder="i.e. https://source.unsplash.com/random"
-				onChange={event => setSrc(event.target.value)}
-				value={src}
-				sx={{ mb: 7, height: 10 }}
-				fullWidth
-			/>
-			<TextField
-				label="Alt Text"
-				placeholder="Random unsplash image"
-				onChange={event => setAltText(event.target.value)}
-				sx={{ mb: 7, height: 10 }}
-				fullWidth
-				value={altText}
-				data-test-id="image-modal-alt-text-input"
-			/>
-			<Grid container justifyContent="flex-end">
-				<Button
-					data-test-id="image-modal-confirm-btn"
-					disabled={isDisabled}
-					onClick={() => onClick({ altText, src })}
-					variant="outlined">
-					Confirm
-				</Button>
-			</Grid>
-		</>
-	);
-}
-
 // InsertImageUploadedDialogBody is a component that displays the dialog body for inserting an image from a file. props.onClick is a function that is called when the user clicks the confirm button.
 
 const InsertImageUploadedDialogBody = ({ onClick }) => {
@@ -134,7 +95,7 @@ const InsertImageUploadedDialogBody = ({ onClick }) => {
 	return (
 		<>
 			<Button fullWidth sx={{ mb: 1 }} variant="contained" component="label">
-				{isUploading ? 'Cargando...' : 'Seleccionar Imagen'}
+				{isUploading ? 'Loading...' : 'Select Image'}
 				<input onChange={handleFileChange} hidden accept="image/*" type="file" />
 			</Button>
 
@@ -159,7 +120,7 @@ const InsertImageUploadedDialogBody = ({ onClick }) => {
 					onClick={handleImageUpload}
 					variant="outlined"
 					data-test-id="image-modal-confirm-btn">
-					Confirmar
+					Send
 				</Button>
 			</Grid>
 		</>
@@ -195,15 +156,11 @@ export function InsertImageDialog({ activeEditor, onClose }) {
 		<>
 			{!mode && (
 				<Box>
-					<Button data-test-id="image-modal-option-url" onClick={() => setMode('url')}>
-						URL
-					</Button>
 					<Button data-test-id="image-modal-option-file" onClick={() => setMode('file')}>
 						File
 					</Button>
 				</Box>
 			)}
-			{mode === 'url' && <InsertImageUriDialogBody onClick={onClick} />}
 			{mode === 'file' && <InsertImageUploadedDialogBody onClick={onClick} />}
 		</>
 	);
